@@ -8,7 +8,8 @@ This repo contains Python codes developed for the work published in T. Na Narong
 We derived the time-dependent Hamiltonian matrix H(t) for the two-level atom, and then used the `mesolve` function from the [QuTiP](https://qutip.org/docs/4.0.2/index.html) library to solve the [Linblad Master Equation](https://qutip.org/docs/latest/guide/dynamics/dynamics-master.html) for density matrix. The stimulated force is calculated from the Hamiltonian and density matrix, then integrated to update the atom's velocity and position. 
 
 ### Monte Carlo simulations
-Assuming all atoms are independent, we developed Monte Carlo simulations to predict which atoms are successfully trapped by the MOT and estimate the MOT loading rate for given input experimental parameters. The simulations account for the laser Gaussian beam profile, atomic beam divergence and gravity. Atoms' initial positions, velocities, and departure times from the oven are set by `GenerateBatchAtoms.py`. Running this file generates `v_input.npy`, `r_input.npy`, `t_input.npy`, to be loaded when running the simulation files.
+Assuming all atoms are independent, we developed Monte Carlo simulations to predict which atoms are successfully slowed and trapped by the MOT for given input experimental parameters. The simulations account for the laser Gaussian beam profile, atomic beam divergence and gravity. <br>
+Atoms' initial positions, velocities, and departure times from the oven are set by `GenerateBatchAtoms.py`. Running this file generates `v_input.npy`, `r_input.npy`, `t_input.npy`, to be loaded when running the simulation files (see input_files folder).
 
 ## Important files and dependencies
 ### Class files 

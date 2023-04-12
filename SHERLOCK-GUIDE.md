@@ -1,6 +1,5 @@
 # Guide to Sherlock
-Sherlock is a computing cluster operated by the Stanford Research Computing Center for research purposes. See their full documentation [here](https://www.sherlock.stanford.edu/docs/).<br>
-Monte Carlo simulations in this project utilize parallel computing (the Python multiprocessing package) and are run on Sherlock with 16-32 CPU cores.
+Sherlock is a computing cluster operated by the Stanford Research Computing Center for research purposes. See their full documentation [here](https://www.sherlock.stanford.edu/docs/). Monte Carlo simulations in this project require parallel computing (the Python [multiprocessing library](https://docs.python.org/3/library/multiprocessing.html)) and are run on the Sherlock cluster with 16-32 CPU cores.
 
 ## Preparation
 1. Prepare a job file (See [this guide](https://vsoch.github.io/lessons/sherlock-jobs/) on how to create a job file using R/Python/Bash). `submit_chirp_python.py` is a Python example, which takes certain simulation parameters as arguments and submits one simulation job to Sherlock. To submit multiple jobs at once, a Python file such as `submit_chirp_batch_python.py` loops through a set of parameters/conditions we want to vary. In addition to the simulation parameters, the files specify demands on computing resources including no. of CPUs, memory usage, time.

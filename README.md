@@ -13,13 +13,14 @@ Assuming all atoms are independent, we developed Monte Carlo simulations to pred
 ## Important files and dependencies
 ### Class files 
 These files define a class `MCSolver`, which contains functions to numerically solve the Master Equation for the density matrix and the stimulated force, and functions to run Monte Carlo simulations with parallel computing. 
-- `SSMCSolver_BCF.py` Bichromatic force (BCF) 
--  Polychromatic force
+- `SSMCSolver_BCF.py` Bichromatic force (BCF)  from overlapping CW beams
+- `SSMCSolver_square.py` Polychromatic force (PCF) from square-wave AM light
 ### Dependencies
 - `SSParameters.py` defines the class `GreenLaser`, which contains the parameters for bichromatic light.
 - `RandomInitialize.py` defines the class `GreenLaserSquare`, which contains the parameters for square-wave AM light.
-### Job submission files
-The following files can be run on a local computer or on the Sherlock computing cluster. On the local computer, ONLY RUN THIS WITH VERY FEW ATOMS (or it will take very long). Locally, type `python3 <RunMC_file.py> <arguments>` on a local terminal. 
+### Main simulation files
+- `RunMC_local.py` Use this to test run on your local computer to make sure all files are ready.
+The following files run Monte Carlo simulations from input_files. 
 - `RunMC...py`
 - `RunMC...py`
 

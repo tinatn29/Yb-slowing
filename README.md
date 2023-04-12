@@ -2,7 +2,7 @@
 Numerical calculations and Monte Carlo simulations of stimulated slowing of Yb atoms with amplitude-modulated light
 
 ## Project Overview
-Python codes and some simulation data used to produced results in our publication, T. Na Narong, et al. *Physical Review A* (2021) [[1]](https://journals-aps-org.stanford.idm.oclc.org/pra/abstract/10.1103/PhysRevA.104.053117), on stimulated slowing of Yb atoms with counter-propagating bichromatic and amplitude-modulated light.
+This repo contains Python codes developed for the work published in T. Na Narong, et al. *Physical Review A* (2021) [[1]](https://journals-aps-org.stanford.idm.oclc.org/pra/abstract/10.1103/PhysRevA.104.053117). We numerically calculate optical forces on Yb atoms to design a stimulated slowing experiment with counter-propagating bichromatic and amplitude-modulated light. We also run Monte Carlo simulations of >20,000 atoms to evaluate the slowing efficiency.
 
 ### Numerical calculation of bichromatic force (BCF) and polychromatic force (PCF)
 We derived the time-dependent Hamiltonian matrix H(t) for the two-level atom, and then used the `mesolve` function from the [QuTiP](https://qutip.org/docs/4.0.2/index.html) library to solve the [Linblad Master Equation](https://qutip.org/docs/latest/guide/dynamics/dynamics-master.html) for density matrix. The stimulated force is calculated from the Hamiltonian and density matrix, then integrated to update the atom's velocity and position. 

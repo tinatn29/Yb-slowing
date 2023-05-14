@@ -9,7 +9,7 @@ We derived the time-dependent Hamiltonian matrix H(t) for the two-level atom, an
 
 ### Monte Carlo simulations
 Assuming all atoms are independent, we developed Monte Carlo simulations to predict which atoms are successfully slowed and trapped by the MOT for given input experimental parameters. The simulations account for the laser Gaussian beam profile, atomic beam divergence and gravity. <br>
-Atoms' initial positions, velocities, and departure times from the oven are set by `GenerateBatchAtoms.py`. Running this file generates `v_input.npy`, `r_input.npy`, `t_input.npy`, to be loaded when running the simulation files (see input_files folder).
+Atoms' initial positions, velocities, and departure times from the oven are set by `GenerateBatchAtoms.py`. Running this file generates `v_input.npy`, `r_input.npy`, `t_input.npy`, to be loaded when running the simulation files. The input_files folder contains these files with 5000 or 20000 atoms as examples.
 
 ## Important files and dependencies
 ### Class files 
@@ -17,19 +17,15 @@ These files define a class `MCSolver`, which contains functions to numerically s
 - `SSMCSolver_BCF.py` Bichromatic force (BCF)  from overlapping CW beams
 - `SSMCSolver_square.py` Polychromatic force (PCF) from square-wave AM light
 ### Dependencies
-- `SSParameters.py` defines the class `GreenLaser`, which contains the parameters for bichromatic light.
-- `RandomInitialize.py` defines the class `GreenLaserSquare`, which contains the parameters for square-wave AM light.
+- `RandomInitialize.py` defines functions to sample atoms' starting velocities (effusion distribution) and positions (uniform).
 ### Main simulation files
-- `RunMC_local.py` Use this to test run on your local computer to make sure all files are ready.
+- `RunMC_local_BCF.py` Use this to test run on your local computer to make sure all files are ready.
 The following files run Monte Carlo simulations from input_files. 
-- `RunMC...py`
-- `RunMC...py`
+- `RunMC_allinput_BCF_chirp.py` runs the simulation with pre-set v,r,t inputs.
 
-To run Monte Carlo simulations on the Sherlock cluster, modify the following files and run them on the Sherlock cluster to submit jobs to the server. See [SHERLOCK-GUIDE.md](SHERLOCK-GUIDE.md) for details.
-- `submit_chirp_python.py`
-- `submit_chirp_batch_python.py`
-- `submit_chirp_squareAM.py`
-- `submit_chirp_batch_square.py`
+To run Monte Carlo simulations on the Sherlock cluster, create a bash submission script or a python submission script (see examples in the folder submission_files) and run them on the Sherlock cluster to submit jobs to the server. See [SHERLOCK-GUIDE.md](SHERLOCK-GUIDE.md) for details.
+- `submit_BCF_chirp_single.py`
+- `submit_BCF_chirp_batch.py`
 
 ## Software and Libraries
 - Python 3.6

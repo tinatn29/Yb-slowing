@@ -1,4 +1,4 @@
-# IN PROGRESS - some files are still missing!
+# IN PROGRESS - more files to be added!
 
 # Yb-stimulated-slowing
 Numerical calculations and Monte Carlo simulations of stimulated slowing of Yb atoms with amplitude-modulated light

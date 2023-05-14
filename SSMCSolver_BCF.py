@@ -64,23 +64,23 @@ def merge_two_arrays(a1, a2):
 
 # Define new class here
 class MCSolver():
-    def __init__(self, laser, gravity=True, loading_time=1e-3):
+    def __init__(self, delta=50, omega=60, phi=-np.pi/4, detuning=0, gravity=True, loading_time=1e-3):
         # Dictionary "args" contains parameters that need to be fed into QuTiP mesolve function
         self.args = {
-                    'gamma': laser.gamma,
-                    'Delta': laser.Delta,
-                    'detuning': laser.detuning,
-                    'k': laser.k,
-                    'v': 0,
-                    'z': 0,
-                    'phi_left': laser.phi_left,
-                    'phi_right': laser.phi_right,
-                    'Omega': laser.Omega,
-                    't_elapsed': 0,
-                    'hbar' : laser.hbar,
-                    'mass' : laser.atom_mass,
-                    'tau' : laser.tau,
-                    'F_rad': laser.hbar * laser.k * laser.gamma / 2
+                    'gamma': 2 * np.pi * 182e3, # spontaneous decay rate / natural linewidth
+                    'Delta': delta * self.args['gamma'], # bichromatic detuning
+                    'Omega': omega * self.args['gamma'], # Rabi frequency
+                    'detuning': detuning, # laser detuning from atomic resonance w0
+                    'k': 2 * np.pi / 556e-9, # wavenumber
+                    'v': 0, # atom's velocity vz
+                    'z': 0, # atom's position z
+                    'phi_left': phi, # phase of laser beams moving towards the atom (-pi/4 by default)
+                    'phi_right': 0, # phase of laser beams moving in the same direction as the atom (zero by default)
+                    't_elapsed': 0, # time elapsed 
+                    'hbar' : 6.63e-34 / (2 * np.pi), # hbar = h / 2pi
+                    'mass' : l174 * 1.67e-27, # mass of Yb-174 atom
+                    'tau' : 1 / self.args['gamma'], # atom's lifetime = 1/gamma
+                    'F_rad': self.args['hbar'] * self.args['k'] * self.args['gamma'] / 2 # max radiative force 
         }
         # Atom's properties
         self.v_3D = np.array([0, 0, 0])  # atom's velocity 3D
@@ -467,58 +467,26 @@ class MCSolver():
         return np.concatenate((outputs, 'DONE', time.time() - start_time), axis=None)
 
 
-    def SolveMC_parallel_InputAll(self, v_input, z_input, t_input):
+    def SolveMC_parallel_InputAll(self, v_input, z_input, t_input, max_cores=32):
         '''
         Solve MC for N atoms using multiprocessing
+        max_cores = 32 for running things on Sherlock
         '''
         import multiprocessing as mp
 
         start_time = time.time()
-        n_cores = np.amin([mp.cpu_count(), 16])
+        n_cores = np.amin([mp.cpu_count(), max_cores])
         pool = mp.Pool(processes=n_cores)
 
         args = list(zip(v_input, z_input, t_input))
         # merge the inputs into args = [[[v1], [z1], [t1]], [[v2], [z2], [t2]], ...]
 
         # then use pool.starmap instead of map
+        # can change the function in starmap() to use other single functions in this class
         outputs = pool.starmap(self.SolveMC_single_GaussianBeam_InputAll, args)  # list of function outputs
         print('Time elapsed: {0:.2f} sec'.format(time.time() - start_time))
         return outputs
 
-    def SolveMC_parallel_FixedDetuning_InputAll(self, v_input, z_input, t_input):
-        '''
-        Solve MC for N atoms using multiprocessing
-        '''
-        import multiprocessing as mp
-
-        start_time = time.time()
-        n_cores = np.amin([mp.cpu_count(), 16])
-        pool = mp.Pool(processes=n_cores)
-
-        args = list(zip(v_input, z_input, t_input))
-        # merge the inputs into args = [[[v1], [z1], [t1]], [[v2], [z2], [t2]], ...]
-        
-        # then use pool.starmap instead of map
-        outputs = pool.starmap(self.SolveMC_single_FixedDetuning_InputAll, args)  # list of function outputs
-        print('Time elapsed: {0:.2f} sec'.format(time.time() - start_time))
-        return outputs
-
-    def SolveMC_parallel_InputAll_FlatTop(self, v_input, z_input, t_input):
-        '''
-        Solve MC for N atoms using multiprocessing
-        '''
-        import multiprocessing as mp
-
-        start_time = time.time()
-        pool = mp.Pool(processes=mp.cpu_count())
-
-        args = list(zip(v_input, z_input, t_input))
-        # merge the inputs into args = [[[v1], [z1]], [[v2], [z2]], ...]
-
-        # then use pool.starmap instead of map
-        outputs = pool.starmap(self.SolveMC_single_FlatTop_InputAll, args)  # list of function outputs
-        print('Time elapsed: {0:.2f} sec'.format(time.time() - start_time))
-        return outputs
 
     def SolveMC_single_track(self, v_initial):
         '''

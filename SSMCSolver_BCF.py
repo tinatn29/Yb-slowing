@@ -2,7 +2,6 @@ import numpy as np
 from qutip import *
 from scipy import signal
 import RandomInitialize as RI
-from SSParameters import GreenLaser, Atom
 import time
 import copy
 

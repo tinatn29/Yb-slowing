@@ -15,6 +15,8 @@ RunMC_BCF_allinput_chirp.py [1]<Delta/gamma> [2]<result_file.csv>
 
 # Set laser parameters
 delta = float(sys.argv[1]) # bichromatic detuning from argument
+omega = delta * np.sqrt(3 / 2) # optimal force condition
+
 filename = sys.argv[2] # filename from argument
 
 MC = MCSolver(delta=delta, omega=omega, phi=-np.pi/4)

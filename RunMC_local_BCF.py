@@ -4,7 +4,6 @@ import time
 import csv
 import sys
 from SSMCSolver_BCF import MCSolver
-import RandomInitialize as RI
 
 
 '''

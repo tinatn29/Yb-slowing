@@ -1,11 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import time
 import csv
 import sys
-from SSParameters import GreenLaser
-from SSMCSolver_2 import MCSolver
-import RandomInitialize as RI
+from SSMCSolver_BCF import MCSolver
 
 
 '''

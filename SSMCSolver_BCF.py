@@ -63,12 +63,12 @@ def merge_two_arrays(a1, a2):
 
 # Define new class here
 class MCSolver():
-    def __init__(self, delta=50, omega=60, phi=-np.pi/4, detuning=0, gravity=True, loading_time=1e-3):
+    def __init__(self, delta=50, omega=60, phi=-np.pi/4, beam_radius=0.004, detuning=0, gravity=True, loading_time=1e-3):
         # Dictionary "args" contains parameters that need to be fed into QuTiP mesolve function
         self.args = {
                     'gamma': 2 * np.pi * 182e3, # spontaneous decay rate / natural linewidth
-                    'Delta': delta * self.args['gamma'], # bichromatic detuning
-                    'Omega': omega * self.args['gamma'], # Rabi frequency
+                    'Delta': delta * 2 * np.pi * 182e3, # bichromatic detuning
+                    'Omega': omega * 2 * np.pi * 182e3, # Rabi frequency
                     'detuning': detuning, # laser detuning from atomic resonance w0
                     'k': 2 * np.pi / 556e-9, # wavenumber
                     'v': 0, # atom's velocity vz
@@ -77,21 +77,22 @@ class MCSolver():
                     'phi_right': 0, # phase of laser beams moving in the same direction as the atom (zero by default)
                     't_elapsed': 0, # time elapsed 
                     'hbar' : 6.63e-34 / (2 * np.pi), # hbar = h / 2pi
-                    'mass' : l174 * 1.67e-27, # mass of Yb-174 atom
-                    'tau' : 1 / self.args['gamma'], # atom's lifetime = 1/gamma
-                    'F_rad': self.args['hbar'] * self.args['k'] * self.args['gamma'] / 2 # max radiative force 
+                    'mass' : 174 * 1.67e-27, # mass of Yb-174 atom
+                    'tau' : 1 / 2 * np.pi * 182e3 # atom's lifetime = 1/gamma
         }
+
         # Atom's properties
         self.v_3D = np.array([0, 0, 0])  # atom's velocity 3D
         self.r_3D = RI.rand_position().flatten()  # Random starting position
         self.chirp = None
         self.t_elapsed = 0
+
         # Quantities for qutip mesolve
         self.H0 = Qobj([[0, 0], [0, 0]])
         self.H = [self.H0, [Qobj([[0, 1], [0, 0]]), H_12_four],
             [Qobj([[0, 0], [1, 0]]), H_21_four]]
         self.rho0 = ket2dm(basis(2, 0))  # Start in ground state
-        self.c_op = np.sqrt(laser.gamma) * Qobj([[0, 1], [0, 0]])  # Collapse operator
+        self.c_op = np.sqrt(self.args['gamma']) * Qobj([[0, 1], [0, 0]])  # Collapse operator
         self.tlist = np.linspace(0, 10e-6, 100)  # tlist for each cycle (10 us)
         self.force = None  # Force as a function of time
         self.p_ex = None  # Excitation population
@@ -99,9 +100,10 @@ class MCSolver():
         self.loading_time = loading_time  # loading time default = 1ms
         self.chirp_successful = False
         self.Gaussian_beam = False
-        self.Omega_0 = laser.Omega  # maximum Rabi frequency (set)
-        self.beam_radius = laser.beam_radius  # beam radius
+        self.Omega_0 = self.args['Omega']  # maximum Rabi frequency (set)
+        self.beam_radius = beam_radius  # beam radius 4mm by default
         self.gravity = gravity  # gravity taken into account?
+        self.F_rad = self.args['hbar'] * self.args['k'] * self.args['gamma'] / 2
 
 
     # Set up class attribute self.chirp 
@@ -155,7 +157,7 @@ class MCSolver():
         v_array = [self.v_3D[2]]
 
         for ind in range(len(self.tlist) - 1):
-            dv = np.trapz(self.force[:(ind + 1)], self.tlist[:(ind + 1)]) * self.args['F_rad'] / self.args['mass']
+            dv = np.trapz(self.force[:(ind + 1)], self.tlist[:(ind + 1)]) * self.F_rad / self.args['mass']
             v_array.append(self.v_3D[2] + dv)
 
         # Update atom's position, velocity, and time_elapsed

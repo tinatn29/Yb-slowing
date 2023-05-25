@@ -1,5 +1,3 @@
-# IN PROGRESS - more files to be added
-
 # Yb-slowing
 Numerical calculations and Monte Carlo simulations of stimulated slowing of Yb atoms with amplitude-modulated light
 
@@ -18,16 +16,20 @@ Atoms' initial positions, velocities, and departure times from the oven are set 
 These files define a class `MCSolver`, which contains functions to numerically solve the Master Equation for the density matrix and the stimulated force, and functions to run Monte Carlo simulations with parallel computing. 
 - `SSMCSolver_BCF.py` Bichromatic force (BCF)  from overlapping CW beams
 - `SSMCSolver_square.py` Polychromatic force (PCF) from square-wave AM light
+
 ### Dependencies
 - `RandomInitialize.py` defines functions to sample atoms' starting velocities (effusion distribution) and positions (uniform).
+
 ### Main simulation files
 - `RunMC_local_BCF.py` Use this to test run on your local computer to make sure all files are ready.
 The following files run Monte Carlo simulations from input_files. 
 - `RunMC_allinput_BCF_chirp.py` runs the simulation with pre-set v,r,t inputs.
 
-To run Monte Carlo simulations on the Sherlock cluster, create a bash submission script or a python submission script (see examples in the folder submission_files) and run them on the Sherlock cluster to submit jobs to the server. See [SHERLOCK-GUIDE.md](SHERLOCK-GUIDE.md) for details.
-- `submit_BCF_chirp_single.py`
-- `submit_BCF_chirp_batch.py`
+### Bash scripts for job submission (via Python)
+To submit simulations jobs on the Sherlock cluster, you need to first create a bash (.sh) script that specifies computing resources. To easily vary simulation parameters and submit multiple jobs at once, I find it easier to run a Python script on Sherlock (see examples in the folder submission_files).
+
+For example, running `./submission_files/submit_single_BCF_chirp.py` with appropriate arguments will create a bash file (.sh) and other text files (.txt) that contain printed program outputs and error messages in your Sherlock directory. See [SHERLOCK-GUIDE.md](SHERLOCK-GUIDE.md) for details.
+
 
 ## Software and Libraries
 - Python 3.6

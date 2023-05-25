@@ -8,9 +8,9 @@ from SSMCSolver_square import MCSolver
 
 '''
 RunMC_allinput_squareAM_chirp.py [1]<Delta/gamma> [2]<Rabi shape>
-[3]<result_file.csv> filename for output
-[4]<chirp vmax m/s> [5]<chirp vmin m/s> [6]<chirp period in s> 
-[7]<beam radius in m> 
+[3]<chirp vmax m/s> [4]<chirp vmin m/s> [5]<chirp period in s> 
+[6]<beam radius in m> 
+[7]<filename> .csv filename for outputs 
 - Gaussian beam
 - chirp
 '''
@@ -19,12 +19,16 @@ RunMC_allinput_squareAM_chirp.py [1]<Delta/gamma> [2]<Rabi shape>
 # Set laser parameters
 delta = float(sys.argv[1])  # delta in gamma
 omega = delta * np.pi / 4 # optimal force condition
+
 Rabi_shape = int(sys.argv[2])   # 0 = square, 1 = cosine, 2+ = square Fourier series
-filename = sys.argv[3] # filename.csv for output
-vmax = float(sys.argv[4])  # vmax (m/s) upper chirp limit
-vmin = float(sys.argv[5]) # vmin (m/s) lower chirp limit
-chirp_period = float(sys.argv[6]) # chirp period in s e.g. 1e-3 for 1 ms
-beam_radius = float(sys.argv[7]) # laser beam radius in m e.g. 0.004 = 4 mm
+
+# set chirp parameters
+vmax = float(sys.argv[3])  # vmax (m/s) upper chirp limit
+vmin = float(sys.argv[4]) # vmin (m/s) lower chirp limit
+chirp_period = float(sys.argv[5]) # chirp period in s e.g. 1e-3 for 1 ms
+
+beam_radius = float(sys.argv[6]) # laser beam radius in m e.g. 0.004 = 4 mm
+filename = sys.argv[7] # filename.csv for output
 
 # Set up the solver
 MC = MCSolver(delta=delta, omega=omega, Rabi_shape=Rabi_shape, phi=0.36*np.pi, beam_radius=beam_radius, Gaussian_beam=True)

@@ -24,6 +24,7 @@ These files define a class `MCSolver`, which contains functions to numerically s
 - `RunMC_local_BCF.py` Use this to test run on your local computer to make sure all files are ready.
 The following files run Monte Carlo simulations from input_files. 
 - `RunMC_allinput_BCF_chirp.py` runs the simulation with pre-set v,r,t inputs.
+- `RunMC_allinput_squareAM_chirp.py` runs the simulation with pre-set v,r,t inputs (for square wave settings)
 
 ### Bash scripts for job submission (via Python)
 To submit simulations jobs on the Sherlock cluster, you need to first create a bash (.sh) script that specifies computing resources. To easily vary simulation parameters and submit multiple jobs at once, I find it easier to run a Python script on Sherlock (see examples in the folder submission_files).

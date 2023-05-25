@@ -1,6 +1,9 @@
 import numpy as np
 import RandomInitialize as RI
 
+'''
+Run this script to generate pre-set (randomized) starting velocities, times, and positions of atoms for Monte Carlo simulations
+'''
 
 oven_radius = 0.002
 flux = 5000  # no. of atoms coming out per ms --> FLUX (/s) = flux * 1000

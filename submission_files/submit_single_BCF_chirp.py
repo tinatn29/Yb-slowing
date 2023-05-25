@@ -24,7 +24,7 @@ with open(job_file, 'w') as fh:
     fh.writelines("#SBATCH --qos=normal\n")
     fh.writelines("#SBATCH -p hns\n")
     fh.writelines("ml python/3.6.1\n")
-    fh.writelines(f"python3 $HOME/SS_Simulation/RunMC_allinput_BCF_chirp.py {delta} {delta:.0f}_{beam_radius*1000:.1f}mm_{upper_v:.0f}_{lower_v:.0f}_{chirp_period*1000:.0f}ms.csv \
+    fh.writelines(f"python3 $SCRATCH/SS_Simulation/RunMC_allinput_BCF_chirp.py {delta} {delta:.0f}_{beam_radius*1000:.1f}mm_{upper_v:.0f}_{lower_v:.0f}_{chirp_period*1000:.0f}ms.csv \
         {upper_v} {lower_v} {chirp_period} {beam radius}")
 
 os.system("sbatch %s" %job_file)

@@ -7,7 +7,7 @@ from SSMCSolver_BCF import MCSolver
 
 '''
 RunMC_BCF_allinput_chirp.py [1]<Delta/gamma> [2]<result_file.csv> 
-[3]<chirp vmax> [4]<chirp vmin> [5]<chirp period> [6 optional]<beam radius in m>
+[3]<chirp vmax> [4]<chirp vmin> [5]<chirp period in s> [6 optional]<beam radius in m>
 - Gaussian beam profile
 - with chirp
 '''
